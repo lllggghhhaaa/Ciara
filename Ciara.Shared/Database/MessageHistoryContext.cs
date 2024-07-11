@@ -1,17 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Ciara.Shared.Database;
 
-public class MessageHistoryContext : DbContext
+public class MessageHistoryContext(IConfiguration _config) : DbContext
 {
     public DbSet<BotMember> Members { get; set; }
     public DbSet<AiMessage> Messages { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(
-        Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
-        "Server=localhost;Port=5432;Database=Ciara;User Id=postgres;Password=Ceira123#;")
+        _config["Database:ConnectionString"])
         .EnableDetailedErrors();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

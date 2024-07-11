@@ -4,6 +4,7 @@ using DSharpPlus;
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.Exceptions;
 using DSharpPlus.Entities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -15,15 +16,15 @@ public class BotService : IHostedService
     private readonly IHostApplicationLifetime _applicationLifetime;
     private readonly DiscordClient _client;
 
-    public BotService(ILogger<BotService> logger, IHostApplicationLifetime applicationLifetime, DiscordClient client)
+    public BotService(IConfiguration config, ILogger<BotService> logger, IHostApplicationLifetime applicationLifetime, DiscordClient client)
     {
         _logger = logger;
         _applicationLifetime = applicationLifetime;
         _client = client;
-
+        
         var commandsExtension = _client.UseCommands(new CommandsConfiguration
         {
-            DebugGuildId = ulong.Parse(Environment.GetEnvironmentVariable("DEBUG_GUILD") ?? "0"),
+            DebugGuildId = ulong.Parse(config["Discord:DebugGuildId"] ?? "0"),
             UseDefaultCommandErrorHandler = false
         });
 

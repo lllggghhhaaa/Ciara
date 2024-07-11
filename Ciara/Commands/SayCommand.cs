@@ -6,12 +6,13 @@ using Ciara.Shared.Database;
 using DSharpPlus.Commands;
 using DSharpPlus.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace Ciara.Commands;
 
 [Command("ai")]
-public class SayCommand(MessageHistoryContext database)
+public class SayCommand(IConfiguration _config, MessageHistoryContext database)
 {
     [Command("say"), Description("Say my name")]
     public async ValueTask SayAsync(CommandContext context, string prompt, DiscordAttachment? attachment)
@@ -36,7 +37,7 @@ public class SayCommand(MessageHistoryContext database)
         var messageHistory = member.Messages.ToList();
 
         using var client = new HttpClient();
-        client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("OLLAMA_URI") ?? "http://localhost:11434");
+        client.BaseAddress = new Uri(_config["Ollama:Uri"] ?? throw new ArgumentException("Ollama:Uri is null"));
 
         string? imageData = attachment is null ? null : Convert.ToBase64String(await client.GetByteArrayAsync(attachment.Url));
         
