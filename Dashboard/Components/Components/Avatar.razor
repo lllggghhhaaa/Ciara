@@ -1,0 +1,51 @@
+﻿@using Dashboard.Constants
+<div class="@(string.IsNullOrWhiteSpace(Banner) ? $"bg-[#{BannerColor}]" : $"bg-[url('{Banner}')]") 
+flex flex-row p-1 gap-x-2 !rounded-full text-white">
+    <div class="flex flex-col mx-3">
+        <div class="flex flex-row">
+            <p class="mix-blend-difference font-bold">@DisplayName</p>
+            @foreach (var flag in Enum.GetValues<DiscordFlags>().Where(flag => Flags.HasFlag(flag)))
+            {
+                <div class="relative group">
+                    <img src="@_flagsImageMap[flag]"
+                         alt="@flag.ToString()"
+                         class="relative inline-block h-5 w-5 my-auto object-cover object-center"/>
+                    <div class="opacity-0 group-hover:opacity-100 duration-300 absolute inset-x-0 bottom-0 flex justify-center items-end text-xl bg-gray-200 text-black font-semibold">Dwayne</div>
+                </div>
+            }
+        </div>
+        <p class="text-sm mix-blend-difference">@('@' + Username)</p>
+    </div>
+    <img
+        src="@ImageUrl"
+        alt="avatar"
+        class="relative inline-block h-@Size w-@Size !rounded-full  object-cover object-center"/>
+</div>
+
+
+@code {
+    [Parameter, EditorRequired] public string ImageUrl { get; set; } = null!;
+    [Parameter, EditorRequired] public string Username { get; set; } = null!;
+    [Parameter, EditorRequired] public string DisplayName { get; set; } = null!;
+    [Parameter, EditorRequired] public DiscordFlags Flags { get; set; }
+    [Parameter] public string BannerColor { get; set; } = "ffffff";
+    [Parameter] public string? Banner { get; set; }
+    [Parameter] public int Size { get; set; } = 12;
+
+    private Dictionary<DiscordFlags, string> _flagsImageMap = new()
+    {
+        { DiscordFlags.ActiveDeveloper, "https://raw.githubusercontent.com/Mateo-tem/Discord-Flags-and-Badges/main/User%20Flags/Active_Developer/Active_Developer.svg" },
+        { DiscordFlags.VerifiedDeveloper, "https://github.com/Mateo-tem/Discord-Flags-and-Badges/blob/main/User%20Flags/Verified_Developer/Verified_Developer.svg" },
+        { DiscordFlags.Hypesquad, "https://raw.githubusercontent.com/Mateo-tem/Discord-Flags-and-Badges/main/User%20Flags/Hypesquad/Hypesquad.svg" },
+        { DiscordFlags.HypesquadBravery, "https://raw.githubusercontent.com/Mateo-tem/Discord-Flags-and-Badges/main/User%20Flags/Hypesquad_Online_House_1/Hypesquad_Online_House_1.svg" },
+        { DiscordFlags.HypesquadBrilliance, "https://raw.githubusercontent.com/Mateo-tem/Discord-Flags-and-Badges/main/User%20Flags/Hypesquad_Online_House_2/Hypesquad_Online_House_2.svg" },
+        { DiscordFlags.HypesquadBalance, "https://raw.githubusercontent.com/Mateo-tem/Discord-Flags-and-Badges/main/User%20Flags/Hypesquad_Online_House_3/Hypesquad_Online_House_3.svg" },
+        { DiscordFlags.BugHunterLevel1, "https://raw.githubusercontent.com/Mateo-tem/Discord-Flags-and-Badges/main/User%20Flags/Bug_Hunter_Level_1/Bug_Hunter_Level_1.svg" },
+        { DiscordFlags.BugHunterLevel2, "https://raw.githubusercontent.com/Mateo-tem/Discord-Flags-and-Badges/main/User%20Flags/Bug_Hunter_Level_2/Bug_Hunter_Level_2.svg" },
+        { DiscordFlags.CertifiedModerator, "https://raw.githubusercontent.com/Mateo-tem/Discord-Flags-and-Badges/main/User%20Flags/Certified_Moderator/Certified_Moderator.svg" },
+        { DiscordFlags.Partner, "https://raw.githubusercontent.com/Mateo-tem/Discord-Flags-and-Badges/main/User%20Flags/Partner/Partner.svg" },
+        { DiscordFlags.PremiumEarlySupporter, "https://raw.githubusercontent.com/Mateo-tem/Discord-Flags-and-Badges/main/User%20Flags/Premium_Early_Supporter/Premium_Early_Supporter.svg"},
+        { DiscordFlags.Staff, "https://github.com/Mateo-tem/Discord-Flags-and-Badges/blob/main/User%20Flags/Staff/Staff.svg" }
+    };
+
+}

@@ -1,0 +1,92 @@
+﻿@using System.Security.Claims
+@using AspNet.Security.OAuth.Discord
+@using Microsoft.AspNetCore.Components.Authorization
+@using Dashboard.Components.Components
+@using Dashboard.Constants
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<nav
+        class="block w-full max-w-screen-xl px-4 py-2 mx-auto text-white- bg-white border shadow-md rounded-xl border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4">
+    <div class="container flex items-center justify-between mx-auto text-blue-gray-900">
+        <a href="#"
+           class="mr-4 block cursor-pointer py-1.5 font-sans text-base font-medium leading-relaxed text-inherit antialiased text-black">
+            Home
+        </a>
+        <div class="hidden lg:block">
+            <ul class="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+                <li
+                    class="flex items-center p-1 font-sans text-sm antialiased font-medium leading-normal gap-x-2 text-blue-gray-900">
+                    <a href="/Terms" class="flex items-center text-black">
+                        Terms of Service
+                    </a>
+                </li>
+                <li
+                    class="flex items-center p-1 font-sans text-sm antialiased font-medium leading-normal gap-x-2 text-blue-gray-900">
+                    <a href="/Privacy" class="flex items-center text-black">
+                        Privacy Policy
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="flex items-center gap-x-1">
+            <AuthorizeView>
+                <Authorized>
+                    <Avatar Username="@_userName" DisplayName="@_displayName" ImageUrl="@_avatarUrl" BannerColor="@_bannerColor" Banner="@_banner" Flags="@_flags"/>
+                </Authorized>
+                <NotAuthorized>
+                    <a class="align-middle select-none font-sans font-bold text-center text-black uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-sm py-3.5 px-7 rounded-lg border border-blue-gray-500 text-blue-gray-500 hover:opacity-75 focus:ring focus:ring-blue-gray-200 active:opacity-[0.85] flex items-center gap-3"
+                       href="/login">
+                        <img src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" alt="metamask" class="w-6 h-6"/>
+                        Continue with Discord
+                    </a>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+        <button
+                class="relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-inherit transition-all hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden"
+                type="button">
+      <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </span>
+        </button>
+    </div>
+</nav>
+
+@code {
+    private string? _userName = null;
+    private string? _displayName = null;
+    private string? _avatarUrl = null;
+    private string? _bannerColor = null;
+    private string? _banner = null;
+    private DiscordFlags _flags = 0;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity is null || !user.Identity.IsAuthenticated) return;
+
+        string id = user.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+        string avatarHash = user.Claims.First(claim => claim.Type == DiscordAuthenticationConstants.Claims.AvatarHash).Value;
+        
+        foreach (var claim in user.Claims)
+        {
+            Console.WriteLine($"{claim.Type} : {claim.Value}");
+        }
+
+        _userName = user.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
+        _displayName = user.Claims.First(claim => claim.Type == DiscordConstants.DisplayNameClaim).Value;
+        _avatarUrl = $"https://cdn.discordapp.com/avatars/{id}/{avatarHash}.webp";
+        int accentColor = int.Parse(user.Claims.FirstOrDefault(claim => claim.Type == DiscordConstants.BannerColor)?.Value ?? "0");
+        _bannerColor = Convert.ToString(accentColor, 16);
+
+        string? bannerHash = user.Claims.FirstOrDefault(claim => claim.Type == DiscordConstants.Banner)?.Value;
+        _banner = bannerHash is null ? null : $"https://cdn.discordapp.com/banners/{id}/{bannerHash}.webp";
+
+        _flags = (DiscordFlags)int.Parse(user.Claims.FirstOrDefault(claim => claim.Type == DiscordConstants.Flags)?.Value ?? "0");
+    }
+}
