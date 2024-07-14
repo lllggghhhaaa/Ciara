@@ -1,0 +1,33 @@
+﻿@using Ciara.Shared.Database
+@using Microsoft.AspNetCore.Components.Authorization
+@using Dashboard.Components.Components.Chat
+@using Dashboard.Constants
+@using Dashboard.Entities
+@using Microsoft.AspNetCore.Authorization
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigator
+@inject CiaraContext Database
+
+@attribute [Authorize]
+
+@page "/Chat"
+
+<h3>Chat</h3>
+
+<ChatMessage Content="Hello World" MessageSender="_user"/>
+
+
+@code {
+    private User _user;
+    private User _bot;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await User.FromAuthStateProvider(AuthenticationStateProvider);
+        if (user is null) Navigator.NavigateTo("/login");
+        
+        _user = user!.Value;
+        _bot = new User("ciara", "Ciara", "", "ffffff", null, DiscordFlags.None);
+    }
+}

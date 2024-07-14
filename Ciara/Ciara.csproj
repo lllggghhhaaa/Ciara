@@ -9,8 +9,9 @@
   </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02307" />
-      <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02307" />
+      <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02314" />
+      <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02314" />
+      <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02314" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.6.24327.7" />
     </ItemGroup>
 

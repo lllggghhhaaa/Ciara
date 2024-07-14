@@ -12,10 +12,10 @@ using Newtonsoft.Json;
 namespace Ciara.Commands;
 
 [Command("ai")]
-public class SayCommand(IConfiguration _config, MessageHistoryContext database)
+public class SayCommand(IConfiguration _config, CiaraContext database)
 {
     [Command("say"), Description("Say my name")]
-    public async ValueTask SayAsync(CommandContext context, string prompt, DiscordAttachment? attachment)
+    public async ValueTask SayAsync(CommandContext context, string prompt, DiscordAttachment? attachment = null)
     {
         await context.DeferResponseAsync();
 

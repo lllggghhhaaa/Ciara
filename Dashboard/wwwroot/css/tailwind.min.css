@@ -604,11 +604,6 @@ video {
   position: relative;
 }
 
-.inset-x-0 {
-  left: 0px;
-  right: 0px;
-}
-
 .-top-1 {
   top: -0.25rem;
 }
@@ -627,10 +622,6 @@ video {
 
 .top-1\/2 {
   top: 50%;
-}
-
-.bottom-0 {
-  bottom: 0px;
 }
 
 .mx-3 {
@@ -712,6 +703,11 @@ video {
   width: 100%;
 }
 
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .min-w-\[200px\] {
   min-width: 200px;
 }
@@ -760,16 +756,12 @@ video {
   flex-direction: column;
 }
 
-.items-end {
-  align-items: flex-end;
+.content-center {
+  align-content: center;
 }
 
 .items-center {
   align-items: center;
-}
-
-.justify-center {
-  justify-content: center;
 }
 
 .justify-between {
@@ -816,6 +808,10 @@ video {
   border-radius: 0.5rem;
 }
 
+.rounded-md {
+  border-radius: 0.375rem;
+}
+
 .rounded-xl {
   border-radius: 0.75rem;
 }
@@ -846,17 +842,16 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-gray-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
-}
-
 .bg-opacity-80 {
   --tw-bg-opacity: 0.8;
 }
 
 .bg-\[url\(\'\{Banner\}\'\)\] {
   background-image: url('{Banner}');
+}
+
+.bg-\[url\(\'\{AvatarUser\.Banner\}\'\)\] {
+  background-image: url('{AvatarUser.Banner}');
 }
 
 .object-cover {
@@ -871,6 +866,10 @@ video {
 
 .p-1 {
   padding: 0.25rem;
+}
+
+.p-3 {
+  padding: 0.75rem;
 }
 
 .p-5 {
@@ -957,11 +956,6 @@ video {
   line-height: 1rem;
 }
 
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-}
-
 .font-bold {
   font-weight: 700;
 }
@@ -972,10 +966,6 @@ video {
 
 .font-normal {
   font-weight: 400;
-}
-
-.font-semibold {
-  font-weight: 600;
 }
 
 .uppercase {
@@ -1018,10 +1008,6 @@ video {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.opacity-0 {
-  opacity: 0;
-}
-
 .mix-blend-difference {
   mix-blend-mode: difference;
 }
@@ -1056,10 +1042,6 @@ video {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
-}
-
-.duration-300 {
-  transition-duration: 300ms;
 }
 
 .before\:pointer-events-none::before {
@@ -1298,10 +1280,6 @@ video {
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.group:hover .group-hover\:opacity-100 {
-  opacity: 1;
 }
 
 .peer:-moz-placeholder-shown ~ .peer-placeholder-shown\:text-sm {

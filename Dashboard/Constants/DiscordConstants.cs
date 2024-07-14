@@ -11,6 +11,7 @@ public static class DiscordConstants
 [Flags]
 public enum DiscordFlags
 {
+    None = 0,
     Staff = 1 << 0,
     Partner = 1 << 1,
     Hypesquad = 1 << 2,

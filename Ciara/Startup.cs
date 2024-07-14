@@ -20,7 +20,7 @@ public class Startup
 
         builder.Services
             .AddHostedService<BotService>()
-            .AddDbContext<MessageHistoryContext>()
+            .AddDbContext<CiaraContext>()
             .AddDiscordClient(
                 builder.Configuration["Discord:Token"] ??
                 throw new ArgumentNullException("token", "Discord token is null"), DiscordIntents.AllUnprivileged);

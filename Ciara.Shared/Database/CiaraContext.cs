@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Ciara.Shared.Database;
 
-public class MessageHistoryContext(IConfiguration _config) : DbContext
+public class CiaraContext(IConfiguration _config) : DbContext
 {
     public DbSet<BotMember> Members { get; set; }
     public DbSet<AiMessage> Messages { get; set; }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<MessageHistoryContext>();
+builder.Services.AddDbContext<CiaraContext>();
 
 builder.Services.AddAuthentication(options =>
     {

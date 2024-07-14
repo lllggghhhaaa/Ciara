@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Ciara.ContextCheck;
 
-public class TermsRequiredCheck(MessageHistoryContext database) : IContextCheck<TermsRequiredAttribute>
+public class TermsRequiredCheck(CiaraContext database) : IContextCheck<TermsRequiredAttribute>
 {
     public async ValueTask<string?> ExecuteCheckAsync(TermsRequiredAttribute attribute, CommandContext context)
     {
