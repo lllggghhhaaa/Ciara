@@ -11,8 +11,8 @@ using Newtonsoft.Json;
 
 namespace Ciara.Commands;
 
-[Command("ai")]
-public class SayCommand(IConfiguration _config, CiaraContext database)
+[Command("ai"), TermsRequired]
+public class SayCommand(IConfiguration config, CiaraContext database)
 {
     [Command("say"), Description("Say my name")]
     public async ValueTask SayAsync(CommandContext context, string prompt, DiscordAttachment? attachment = null)
@@ -37,7 +37,7 @@ public class SayCommand(IConfiguration _config, CiaraContext database)
         var messageHistory = member.Messages.ToList();
 
         using var client = new HttpClient();
-        client.BaseAddress = new Uri(_config["Ollama:Uri"] ?? throw new ArgumentException("Ollama:Uri is null"));
+        client.BaseAddress = new Uri(config["Ollama:Uri"] ?? throw new ArgumentException("Ollama:Uri is null"));
 
         string? imageData = attachment is null ? null : Convert.ToBase64String(await client.GetByteArrayAsync(attachment.Url));
         
