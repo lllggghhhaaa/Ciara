@@ -15,7 +15,10 @@
 
 <h3>Chat</h3>
 
-<ChatMessage Content="Hello World" MessageSender="_user"/>
+@foreach (var aiMessage in Database.Messages.Where(message => message.Member.MemberId == _user.Id))
+{
+    <ChatMessage Content="@aiMessage.Message" MessageSender="@(aiMessage.FromAssistant ? _bot : _user)"/>
+}
 
 
 @code {
@@ -28,6 +31,6 @@
         if (user is null) Navigator.NavigateTo("/login");
         
         _user = user!.Value;
-        _bot = new User("ciara", "Ciara", "", "ffffff", null, DiscordFlags.None);
+        _bot = new User(0, "ciara", "Ciara", "/images/phonegap-bot-svgrepo-com.svg", "ffffff", null, DiscordFlags.None);
     }
 }

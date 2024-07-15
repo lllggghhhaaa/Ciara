@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Dashboard.Entities;
 
 public record struct User(
+    ulong Id,
     string Username,
     string DisplayName,
     string AvatarUrl,
@@ -40,6 +41,6 @@ public record struct User(
 
         var flags = (DiscordFlags)int.Parse(userClaims.Claims.FirstOrDefault(claim => claim.Type == DiscordConstants.Flags)?.Value ?? "0");
 
-        return new User(username, displayname, avatarUrl, bannerColor, banner, flags);
+        return new User(ulong.Parse(id) ,username, displayname, avatarUrl, bannerColor, banner, flags);
     }
 }

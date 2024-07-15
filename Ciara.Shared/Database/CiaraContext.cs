@@ -5,13 +5,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace Ciara.Shared.Database;
 
-public class CiaraContext(IConfiguration _config) : DbContext
+public class CiaraContext(IConfiguration config) : DbContext
 {
     public DbSet<BotMember> Members { get; set; }
     public DbSet<AiMessage> Messages { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(
-        _config["Database:ConnectionString"])
+        config["Database:ConnectionString"])
         .EnableDetailedErrors();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
