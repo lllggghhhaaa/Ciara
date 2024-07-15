@@ -52,58 +52,65 @@ public class BotService : IHostedService
             switch (args.Exception)
             {
                 case ChecksFailedException checksFailedException:
-                    await context.DeferResponseAsync(true);
-                    
-                    var messageBuilder = new DiscordMessageBuilder { Content = String.Empty }
-                        .AddEmbed(new DiscordEmbedBuilder
-                        {
-                            Title = "Terms",
-                            Description = """
-                                          You must agree to the terms before using this
-                                          - [Terms](https://domain.com/Terms)
-                                          - [Privacy Policy](https://domain.com/Privacy)
-                                          """,
-                            Footer = new DiscordEmbedBuilder.EmbedFooter
+                    if (checksFailedException.Message == "Checks for ai history failed.")
+                    {
+                        await context.DeferResponseAsync(true);
+
+                        var messageBuilder = new DiscordMessageBuilder { Content = String.Empty }
+                            .AddEmbed(new DiscordEmbedBuilder
                             {
-                                IconUrl = context.Member?.GetGuildAvatarUrl(ImageFormat.Auto),
-                                Text = context.Member?.GlobalName
-                            }
-                        });
+                                Title = "Terms",
+                                Description = """
+                                              You must agree to the terms before using this
+                                              - [Terms](https://domain.com/Terms)
+                                              - [Privacy Policy](https://domain.com/Privacy)
+                                              """,
+                                Footer = new DiscordEmbedBuilder.EmbedFooter
+                                {
+                                    IconUrl = context.Member?.GetGuildAvatarUrl(ImageFormat.Auto),
+                                    Text = context.Member?.GlobalName
+                                }
+                            });
 
-                    var button =
-                        new DiscordButtonComponent(DiscordButtonStyle.Success, $"terms:{context.User.Id}", "Accept", true);
-                    
-                    await context.RespondAsync(messageBuilder.AddComponents(new DiscordButtonComponent(button)));
+                        var button =
+                            new DiscordButtonComponent(DiscordButtonStyle.Success, $"terms:{context.User.Id}", "Accept",
+                                true);
 
-                    await Task.Delay(TimeSpan.FromSeconds(3));
-                    
-                    button.Enable();
-                    messageBuilder.ClearComponents();
-                    messageBuilder.AddComponents(button);
+                        await context.RespondAsync(messageBuilder.AddComponents(new DiscordButtonComponent(button)));
 
-                    await context.EditResponseAsync(messageBuilder);
+                        await Task.Delay(TimeSpan.FromSeconds(3));
 
-                    var botMessage = await context.GetResponseAsync();
-                    
-                    var interactivity = _client.GetInteractivity();
-                    
-                    var result = await interactivity.WaitForButtonAsync(botMessage!, [button]);
-                    
-                    if (result.TimedOut) return;
-                    await result.Result.Interaction.CreateResponseAsync(DiscordInteractionResponseType.DeferredMessageUpdate);
-                    
-                    var database = _client.ServiceProvider.GetService<CiaraContext>();
-                    await database!.Members.ExecuteUpdateAsync(calls =>
-                        calls.SetProperty(member => member.TermsAccepted, member => true));
-                    
-                    await database.SaveChangesAsync();
+                        button.Enable();
+                        messageBuilder.ClearComponents();
+                        messageBuilder.AddComponents(button);
 
-                    button =
-                        new DiscordButtonComponent(DiscordButtonStyle.Success, $"terms:{context.User.Id}", "Accepted", true);
-                    messageBuilder.ClearComponents();
-                    messageBuilder.AddComponents(button);
+                        await context.EditResponseAsync(messageBuilder);
 
-                    await context.EditResponseAsync(messageBuilder);
+                        var botMessage = await context.GetResponseAsync();
+
+                        var interactivity = _client.GetInteractivity();
+
+                        var result = await interactivity.WaitForButtonAsync(botMessage!, [button]);
+
+                        if (result.TimedOut) return;
+                        await result.Result.Interaction.CreateResponseAsync(DiscordInteractionResponseType
+                            .DeferredMessageUpdate);
+
+                        var database = _client.ServiceProvider.GetService<CiaraContext>();
+                        await database!.Members.ExecuteUpdateAsync(calls =>
+                            calls.SetProperty(member => member.TermsAccepted, member => true));
+
+                        await database.SaveChangesAsync();
+
+                        button =
+                            new DiscordButtonComponent(DiscordButtonStyle.Success, $"terms:{context.User.Id}",
+                                "Accepted", true);
+                        messageBuilder.ClearComponents();
+                        messageBuilder.AddComponents(button);
+
+                        await context.EditResponseAsync(messageBuilder);
+                    }
+
                     break;
                 
                 default:
