@@ -1,5 +1,4 @@
-﻿using Ciara.ContextCheck;
-using DSharpPlus.Commands;
+﻿using DSharpPlus.Commands;
 using DSharpPlus.Commands.ContextChecks;
 
 namespace Ciara.Commands;

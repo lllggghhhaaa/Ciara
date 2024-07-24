@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Text;
-using Ciara.ContextCheck;
 using Ciara.Entities;
 using Ciara.Shared.Database;
+using Ciara.Utils;
 using DSharpPlus.Commands;
+using DSharpPlus.Commands.Processors.SlashCommands;
 using DSharpPlus.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,28 +12,29 @@ using Newtonsoft.Json;
 
 namespace Ciara.Commands;
 
-[Command("ai"), TermsRequired]
+[Command("ai")]
 public class SayCommand(IConfiguration config, CiaraContext database)
 {
     [Command("say"), Description("Say my name")]
     public async ValueTask SayAsync(CommandContext context, string prompt, DiscordAttachment? attachment = null)
     {
-        await context.DeferResponseAsync();
-
         var member = await database.Members
             .Include(m => m.Messages)
             .FirstOrDefaultAsync(m => m.MemberId == context.User.Id);
-
-        if (member is null)
+        
+        if (member is null || !member.TermsAccepted)
         {
-            member = new BotMember
-            {
-                MemberId = context.User.Id,
-                Messages = new List<AiMessage>()
-            };
-            await database.Members.AddAsync(member);
-            await database.SaveChangesAsync();
+            await TermsUtils.TermsPrompt((context as SlashCommandContext)!, member);
+            return;
         }
+
+        if (member.Credits <= 0)
+        {
+            await context.RespondAsync("Pobre");
+            return;
+        }
+        
+        await context.DeferResponseAsync();
 
         var messageHistory = member.Messages.ToList();
 
@@ -49,6 +51,8 @@ public class SayCommand(IConfiguration config, CiaraContext database)
         var responseRaw = await (await client.PostAsync("/api/chat",
                 new StringContent(JsonConvert.SerializeObject(chatRequest), Encoding.UTF8, "application/json")))
             .Content.ReadAsStringAsync();
+        
+        Console.WriteLine(responseRaw);
 
         var response = JsonConvert.DeserializeObject<OllamaChatResponse>(responseRaw)!;
 
@@ -59,6 +63,9 @@ public class SayCommand(IConfiguration config, CiaraContext database)
 
         await database.Messages.AddAsync(userMessage);
         await database.Messages.AddAsync(assistantMessage);
+
+        member.Credits--;
+        database.Update(member);
     
         await database.SaveChangesAsync();
     }

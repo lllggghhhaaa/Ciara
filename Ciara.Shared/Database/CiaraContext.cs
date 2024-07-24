@@ -9,7 +9,7 @@ public class CiaraContext(IConfiguration config) : DbContext
 {
     public DbSet<BotMember> Members { get; set; }
     public DbSet<AiMessage> Messages { get; set; }
-
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(
         config["Database:ConnectionString"])
         .EnableDetailedErrors();
@@ -31,11 +31,9 @@ public class CiaraContext(IConfiguration config) : DbContext
 
 public class BotMember
 {
-    [Key]
-    public ulong MemberId { get; set; }
-
+    [Key] public ulong MemberId { get; set; }
+    public int Credits { get; set; } = 36;
     public bool TermsAccepted { get; set; }
-    
     public ICollection<AiMessage> Messages { get; set; }
 }
 
