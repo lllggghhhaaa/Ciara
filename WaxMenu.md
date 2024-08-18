@@ -1,6 +1,8 @@
 ## Introduction
 WaxMenu is a library to create interactive menus and component tasks with [DSharpPlus](https://github.com/DSharpPlus/DSharpPlus)
 
+https://www.nuget.org/packages/WaxMenu
+
 ## How to use
 
 ### Setup
