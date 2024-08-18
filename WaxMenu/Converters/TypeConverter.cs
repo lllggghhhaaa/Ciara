@@ -1,25 +1,31 @@
-﻿using WaxMenu.Context;
+﻿using DSharpPlus.Entities;
+using WaxMenu.Context;
 
 namespace WaxMenu.Converters;
 
 public static class TypeConverter
 {
-    public static Dictionary<Type, Func<ConversionContext, object>> Converters = new()
+    public static Dictionary<Type, Func<ConversionContext, Task<object>>> Converters = new()
     {
         // Primitives
-        { typeof(bool), ctx => PrimitiveConverters.BoolConverter(ctx) },
-        { typeof(byte), ctx => PrimitiveConverters.ByteConverter(ctx) },
-        { typeof(sbyte), ctx => PrimitiveConverters.SByteConverter(ctx) },
-        { typeof(char), ctx => PrimitiveConverters.CharConverter(ctx) },
-        { typeof(decimal), ctx => PrimitiveConverters.DecimalConverter(ctx) },
-        { typeof(double), ctx => PrimitiveConverters.DoubleConverter(ctx) },
-        { typeof(float), ctx => PrimitiveConverters.FloatConverter(ctx) },
-        { typeof(int), ctx => PrimitiveConverters.IntConverter(ctx) },
-        { typeof(uint), ctx => PrimitiveConverters.UIntConverter(ctx) },
-        { typeof(long), ctx => PrimitiveConverters.LongConverter(ctx) },
-        { typeof(ulong), ctx => PrimitiveConverters.ULongConverter(ctx) },
-        { typeof(short), ctx => PrimitiveConverters.ShortConverter(ctx) },
-        { typeof(ushort), ctx => PrimitiveConverters.UShortConverter(ctx) },
-        { typeof(string), ctx => ctx.Content }
+        { typeof(bool), PrimitiveConverters.BoolConverter },
+        { typeof(byte), PrimitiveConverters.ByteConverter },
+        { typeof(sbyte), PrimitiveConverters.SByteConverter },
+        { typeof(char), PrimitiveConverters.CharConverter },
+        { typeof(decimal), PrimitiveConverters.DecimalConverter },
+        { typeof(double), PrimitiveConverters.DoubleConverter },
+        { typeof(float), PrimitiveConverters.FloatConverter },
+        { typeof(int), PrimitiveConverters.IntConverter },
+        { typeof(uint), PrimitiveConverters.UIntConverter },
+        { typeof(long), PrimitiveConverters.LongConverter },
+        { typeof(ulong), PrimitiveConverters.ULongConverter },
+        { typeof(short), PrimitiveConverters.ShortConverter },
+        { typeof(ushort), PrimitiveConverters.UShortConverter },
+        { typeof(string), PrimitiveConverters.StringConverter },
+        
+        // Discord
+        { typeof(DiscordChannel), DiscordConverters.ChannelConverter },
+        { typeof(DiscordUser), DiscordConverters.UserConverter },
+        { typeof(DiscordGuild), DiscordConverters.GuildConverter }
     };
 }

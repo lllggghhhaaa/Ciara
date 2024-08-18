@@ -38,7 +38,7 @@ public static class GuildMenuBuilder
             guild.MemberJoinViewChannelId is null ? "null" : $"<#{guild.MemberJoinViewChannelId}> `<#{guild.MemberJoinViewChannelId}>`"));
 
         var options = new List<DiscordSelectComponentOption>
-            { new("Current Channel", currentChannel.ToString(), null, currentChannel == guild.MemberJoinViewChannelId) };
+            { new("Current Channel", currentChannel.ToString(), null!, currentChannel == guild.MemberJoinViewChannelId) };
 
         options.AddRange(channels.Where(channel =>
                 channel.Id != currentChannel &&
