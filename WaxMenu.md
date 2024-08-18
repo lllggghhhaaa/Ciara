@@ -114,3 +114,14 @@ messageBuilder.AddComponents(new DiscordButtonComponent(DiscordButtonStyle.Secon
 | DiscordChannel | `3253423463456` | ID   |
 | DiscordUser    | `4364536534623` | ID   |
 | DiscordGuild   | `5473536453632` | ID   |
+
+
+````csharp
+// Action example with parameters
+// menu_guild_test_channelid
+[MenuAction("test")]
+public async ValueTask Test(MenuContext context, DiscordChannel channel)
+{
+    Console.WriteLine(channel.Name);     
+}
+````
