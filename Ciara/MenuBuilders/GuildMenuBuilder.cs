@@ -1,5 +1,4 @@
 ﻿using Ciara.Shared.Database;
-using DSharpPlus.Commands;
 using DSharpPlus.Entities;
 
 namespace Ciara.MenuBuilders;

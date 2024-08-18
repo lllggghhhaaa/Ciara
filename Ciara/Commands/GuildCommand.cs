@@ -1,20 +1,16 @@
 ﻿using Ciara.MenuBuilders;
-using Ciara.Services;
 using Ciara.Shared.Database;
 using Ciara.Shared.Extensions;
 using Ciara.Shared.Utils;
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.ContextChecks;
-using DSharpPlus.Entities;
-using Microsoft.Extensions.Logging;
-using WaxMenu;
 using WaxMenu.Attributes;
 using WaxMenu.Context;
 
 namespace Ciara.Commands;
 
 [Command("guild"), Menu("guild")]
-public class GuildCommand(CiaraContext database, ILogger<BotService> logger)
+public class GuildCommand(CiaraContext database)
 {
     [Command("menu"), RequireGuild]
     public async ValueTask Menu(CommandContext context)
