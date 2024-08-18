@@ -100,7 +100,7 @@ messageBuilder.AddComponents(new DiscordButtonComponent(DiscordButtonStyle.Secon
 | bool           | `true`/`false`  |      |
 | byte           | `0` - `255`     |      |
 | sbyte          | `-128` - `127`  |      |
-| char           | `'c'`           |      |
+| char           | `c`             |      |
 | decimal        | `547589.43642`  |      | 
 | double         | `325436.4535`   |      |
 | float          | `3524.56`       |      | 
@@ -110,7 +110,7 @@ messageBuilder.AddComponents(new DiscordButtonComponent(DiscordButtonStyle.Secon
 | ulong          | `352434436346`  |      |
 | short          | `-2356`         |      |
 | ushort         | `4367`          |      |
-| string         | `"text"`        |      |
+| string         | `text`          |      |
 | DiscordChannel | `3253423463456` | ID   |
 | DiscordUser    | `4364536534623` | ID   |
 | DiscordGuild   | `5473536453632` | ID   |
