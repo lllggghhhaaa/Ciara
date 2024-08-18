@@ -9,14 +9,14 @@
   </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02314" />
-      <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02314" />
-      <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02314" />
-      <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.6.24327.7" />
+      <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02356" />
+      <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02356" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.7.24405.7" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Ciara.Shared\Ciara.Shared.csproj" />
+      <ProjectReference Include="..\WaxMenu\WaxMenu.csproj" />
     </ItemGroup>
     
     <ItemGroup>
