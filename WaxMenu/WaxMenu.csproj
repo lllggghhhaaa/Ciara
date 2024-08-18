@@ -4,6 +4,11 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Version>0.0.1</Version>
+        <Title>WaxMenu</Title>
+        <Authors>lllggghhhaaa</Authors>
+        <Description>A package for create interative menus on DSharpPlus</Description>
+        <RepositoryUrl>https://github.com/lllggghhhaaa/Ciara</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
