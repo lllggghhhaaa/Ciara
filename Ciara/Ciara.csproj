@@ -12,11 +12,11 @@
       <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02356" />
       <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02356" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.7.24405.7" />
+      <PackageReference Include="WaxMenu" Version="0.0.1" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Ciara.Shared\Ciara.Shared.csproj" />
-      <ProjectReference Include="..\WaxMenu\WaxMenu.csproj" />
     </ItemGroup>
     
     <ItemGroup>

@@ -9,7 +9,6 @@
         <Authors>lllggghhhaaa</Authors>
         <Description>A package for create interative menus on DSharpPlus</Description>
         <RepositoryUrl>https://github.com/lllggghhhaaa/Ciara</RepositoryUrl>
-        <PackageLicenseUrl>https://raw.githubusercontent.com/lllggghhhaaa/Ciara/master/LICENSE</PackageLicenseUrl>
     </PropertyGroup>
 
     <ItemGroup>
